@@ -1,6 +1,6 @@
 # Shell script repo
 
+현재 repo를 PATH에 추가해 export하는 부분을 zshrc에 넣는다. 
 ```Shell
-# 결과를 사용하는 Shell에 따라 ~/.zshrc, ~/.bashrc 등에 추가
-echo 'export PATH="'$(pwd)':$PATH"'
+./init
 ```

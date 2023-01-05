@@ -1,0 +1,3 @@
+#!/bin/bash
+
+grep -qxF 'export PATH="'$(pwd)':$PATH"' ~/.zshrc || echo -e '\nexport PATH="'$(pwd)':$PATH"\n' >> ~/.zshrc
