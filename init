@@ -1,3 +1,8 @@
 #!/bin/bash
 
+# PATH 추가
 grep -qxF 'export PATH="'$(pwd)':$PATH"' ~/.zshrc || echo -e '\nexport PATH="'$(pwd)':$PATH"\n' >> ~/.zshrc
+
+# kubectl aliases 추가
+cp .kubectl_aliases ~/.kubectl_aliases
+grep -qxF '[ -f ~/.kubectl_aliases ] && source ~/.kubectl_aliases' ~/.zshrc || echo -e '\n[ -f ~/.kubectl_aliases ] && source ~/.kubectl_aliases\n' >> ~/.zshrc
