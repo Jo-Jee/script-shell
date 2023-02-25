@@ -1,6 +1,7 @@
 # Shell script repo
 
-현재 repo를 PATH에 추가해 export하는 부분을 zshrc에 넣는다. 
+PATH, alias 등을 추가한다.
+
 ```Shell
 ./init
 ```

@@ -2,7 +2,12 @@
 
 # PATH 추가
 grep -qxF 'export PATH="'$(pwd)':$PATH"' ~/.zshrc || echo -e '\nexport PATH="'$(pwd)':$PATH"\n' >> ~/.zshrc
+echo 'PATH added'
 
 # kubectl aliases 추가
-cp .kubectl_aliases ~/.kubectl_aliases
-grep -qxF '[ -f ~/.kubectl_aliases ] && source ~/.kubectl_aliases' ~/.zshrc || echo -e '\n[ -f ~/.kubectl_aliases ] && source ~/.kubectl_aliases\n' >> ~/.zshrc
+grep -qxF "[ -f $(pwd)/.kubectl_aliases ] && source $(pwd)/.kubectl_aliases" ~/.zshrc || echo -e "\n[ -f $(pwd)/.kubectl_aliases ] && source $(pwd)/.kubectl_aliases" >> ~/.zshrc
+echo 'kubectl aliases added'
+
+# terraform aliases 추가
+grep -qxF "[ -f $(pwd)/.tf_aliases ] && source $(pwd)/.tf_aliases" ~/.zshrc || echo -e "[ -f $(pwd)/.tf_aliases ] && source $(pwd)/.tf_aliases" >> ~/.zshrc
+echo 'terraform aliases added'
