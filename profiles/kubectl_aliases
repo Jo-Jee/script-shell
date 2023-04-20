@@ -13,6 +13,8 @@
 # limitations under the License.
 
 alias k='kubectl'
+alias kc='kubectx'
+alias kn='kubens'
 alias ksys='kubectl --namespace=kube-system'
 alias ke='kubectl edit'
 alias ka='kubectl apply --recursive -f'
