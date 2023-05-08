@@ -1,11 +1,13 @@
 #!/bin/bash
 
-if [ "$1" = "p" ]; then
+if [ "$1" = "bb" ]; then
   NAME="Jo-Jee"
   EMAIL="jojee.dev@gmail.com"
-elif [ "$1" = "b" ]; then
+  REPO="git@github.com:bb-exchange/$2"
+elif [ "$1" = "bun" ]; then
   NAME="George (박상조)"
   EMAIL="george.park@bunjang.co.kr"
+  REPO="git@bitbucket.org:bunjang/$2"
 else
   echo "Please provide the Profile p(personal) or b(business)"
   exit 1
@@ -17,7 +19,7 @@ then
   exit 1
 fi
 
-git clone "git@bitbucket.org:bunjang/$2"
+git clone "$REPO"
 
 cd $2
 git config user.name "$NAME"
