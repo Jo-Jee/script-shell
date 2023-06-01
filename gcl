@@ -8,8 +8,12 @@ elif [ "$1" = "bun" ]; then
   NAME="George (박상조)"
   EMAIL="george.park@bunjang.co.kr"
   REPO="git@bitbucket.org:bunjang/$2"
+elif [ "$1" = "hs" ]; then
+  NAME="Jo-Jee"
+  EMAIL="jojee.dev@gmail.com"
+  REPO="git@github.com:hengsan/$2"
 else
-  echo "Please provide the Profile p(personal) or b(business)"
+  echo "Please provide the Profile bb/bun/hs"
   exit 1
 fi
 
