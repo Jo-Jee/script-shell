@@ -12,6 +12,10 @@ elif [ "$1" = "hs" ]; then
   NAME="Jo-Jee"
   EMAIL="jojee.dev@gmail.com"
   REPO="git@github.com:hengsan/$2"
+elif [ "$1" = "pp" ]; then
+  NAME="Jo-Jee"
+  EMAIL="jojee.dev@gmail.com"
+  REPO="git@github.com:Jo-Jee/$2"
 else
   echo "Please provide the Profile bb/bun/hs"
   exit 1
