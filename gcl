@@ -1,9 +1,9 @@
 #!/bin/bash
 
-if [ "$1" = "bb" ]; then
+if [ "$1" = "ara" ]; then
   NAME="Jo-Jee"
   EMAIL="jojee.dev@gmail.com"
-  REPO="git@github.com:bb-exchange/$2"
+  REPO="git@github.com:araocean/$2"
 elif [ "$1" = "bun" ]; then
   NAME="George (박상조)"
   EMAIL="george.park@bunjang.co.kr"
