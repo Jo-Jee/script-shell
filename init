@@ -4,9 +4,9 @@
 grep -qxF 'export PATH="'$(pwd)':$PATH"' ~/.zshrc || echo -e '\nexport PATH="'$(pwd)':$PATH"\n' >> ~/.zshrc
 echo 'PATH added'
 
-PROFILES_DIR="$(pwd)/profiles/*"
+PROFILES_DIR="$(pwd)/profiles"
 
-grep -qxF "for f in $PROFILES_DIR; do source \$f; done" ~/.zshrc || echo -e "\nfor f in $PROFILES_DIR; do source \$f; done" >> ~/.zshrc
+grep -qxF "for f in '$PROFILES_DIR'/*; do source \$f; done" ~/.zshrc || echo -e "\nfor f in '$PROFILES_DIR'/*; do source \$f; done" >> ~/.zshrc
 
 # # kubectl aliases 추가
 # grep -qxF "[ -f $(pwd)/.kubectl_aliases ] && source $(pwd)/.kubectl_aliases" ~/.zshrc || echo -e "\n[ -f $(pwd)/.kubectl_aliases ] && source $(pwd)/.kubectl_aliases" >> ~/.zshrc
