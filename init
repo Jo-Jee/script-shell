@@ -1,21 +1,26 @@
 #!/bin/bash
 
-# PATH 추가
-grep -qxF 'export PATH="'$(pwd)':$PATH"' ~/.zshrc || echo -e '\nexport PATH="'$(pwd)':$PATH"\n' >> ~/.zshrc
-echo 'PATH added'
+ZSHRC="$HOME/.zshrc"
+CURRENT_DIR="$(pwd)"
 
-PROFILES_DIR="$(pwd)/profiles"
+# 여기에 원하는 문자열을 배열로 추가하세요
+LINES_TO_ADD=(
+  "export PATH=\"$CURRENT_DIR/bin:\$PATH\""
+  "export GIT_CONFIG_GLOBAL=\"$CURRENT_DIR/configs/gitconfig\""
+  "for f in '$CURRENT_DIR/profiles'/*; do source \$f; done"
+)
 
-grep -qxF "for f in '$PROFILES_DIR'/*; do source \$f; done" ~/.zshrc || echo -e "\nfor f in '$PROFILES_DIR'/*; do source \$f; done" >> ~/.zshrc
+added_any_line=false
 
-# # kubectl aliases 추가
-# grep -qxF "[ -f $(pwd)/.kubectl_aliases ] && source $(pwd)/.kubectl_aliases" ~/.zshrc || echo -e "\n[ -f $(pwd)/.kubectl_aliases ] && source $(pwd)/.kubectl_aliases" >> ~/.zshrc
-# echo 'kubectl aliases added'
-
-# # terraform aliases 추가
-# grep -qxF "[ -f $(pwd)/.tf_aliases ] && source $(pwd)/.tf_aliases" ~/.zshrc || echo -e "[ -f $(pwd)/.tf_aliases ] && source $(pwd)/.tf_aliases" >> ~/.zshrc
-# echo 'terraform aliases added'
-
-# # jenv 추가
-# grep -qxF "[ -f $(pwd)/.jenv ] && source $(pwd)/.jenv" ~/.zshrc || echo -e "[ -f $(pwd)/.jenv ] && source $(pwd)/.jenv" >> ~/.zshrc
-# echo 'terraform aliases added'
+for LINE in "${LINES_TO_ADD[@]}"; do
+  if ! grep -Fqx "$LINE" "$ZSHRC"; then
+    if [ "$added_any_line" = false ]; then
+      echo "" >> "$ZSHRC"  # 빈 줄 한 줄 추가
+      added_any_line=true
+    fi
+    echo "$LINE" >> "$ZSHRC"
+    echo "✅ 추가됨: $LINE"
+  else
+    echo "ℹ️ 이미 존재함: $LINE"
+  fi
+done
