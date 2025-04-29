@@ -1,0 +1,15 @@
+[alias]
+	co = checkout
+	com = checkout master
+	comi = chckout main
+	cos = checkout staging
+	cod = checkout dev
+	st = status -s
+	lg = log --graph --abbrev-commit --decorate=short --format=format:'%C(cyan)%h%C(reset) - %C(green)(%ai%aI)%C(reset) %C(white)%s%C(reset) %C(dim white)- %an%C(reset)%C(yellow)%d%C(reset)' --all
+	# lg = log --graph --oneline --decorate=short --branches='*' --date=short
+	cl = "!git fetch -p && git branch -vv | awk '/: gone]/{print $1}' | xargs git branch -d"
+	bl = branch -l
+	pp = pull -p
+	fp = fetch -p
+[push]
+	autoSetupRemote = true
