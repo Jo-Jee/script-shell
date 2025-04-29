@@ -1,14 +1,17 @@
 [alias]
-	co = checkout
+	co = "!f() { args=$@; if [ -z \"$args\" ]; then branch=$(git branch --all | grep -v HEAD | fzf --preview 'echo {} | cut -c 3- | xargs git log --color --graph' | cut -c 3-); git checkout $(echo $branch | sed 's#remotes/[^/]*/##'); else git checkout $args; fi }; f"
 	com = checkout master
 	comi = chckout main
 	cos = checkout staging
 	cod = checkout dev
+	cob = checkout -b
 	st = status -s
 	lg = log --graph --abbrev=10 --decorate=short --date=format:'%Y/%m/%d %H:%M:%S' --format=format:'%C(cyan)%h%C(reset) - %C(white)%s%C(reset) %C(green)(%ar)%C(reset) %C(dim white)<%an>%C(reset)%C(yellow)%d%C(reset)' --all
 	cl = "!git fetch -p && git branch -vv | awk '/: gone]/{print $1}' | xargs git branch -d"
 	bl = branch -l
 	pp = pull -p
 	fp = fetch -p
+	df = diff
+	dfs = diff --staged
 [push]
 	autoSetupRemote = true
