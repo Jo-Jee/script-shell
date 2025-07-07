@@ -19,8 +19,8 @@ for LINE in "${LINES_TO_ADD[@]}"; do
       added_any_line=true
     fi
     echo "$LINE" >> "$ZSHRC"
-    echo "✅ 추가됨: $LINE"
+    echo "✅  추가됨: $LINE"
   else
-    echo "ℹ️ 이미 존재함: $LINE"
+    echo "⚠️  이미 존재함: $LINE"
   fi
 done
