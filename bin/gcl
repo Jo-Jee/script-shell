@@ -4,18 +4,22 @@ if [ "$1" = "ara" ]; then
   NAME="Jo-Jee"
   EMAIL="jojee.dev@gmail.com"
   REPO="git@github.com:araocean/$2"
+  SSH_KEY="~/.ssh/id_rsa.jojee"
 elif [ "$1" = "bun" ]; then
   NAME="George (박상조)"
   EMAIL="george.park@bunjang.co.kr"
   REPO="git@bitbucket.org:bunjang/$2"
+  SSH_KEY="~/.ssh/id_rsa"
 elif [ "$1" = "hs" ]; then
   NAME="Jo-Jee"
   EMAIL="jojee.dev@gmail.com"
   REPO="git@github.com:hengsan/$2"
+  SSH_KEY="~/.ssh/id_rsa.jojee"
 elif [ "$1" = "pp" ]; then
   NAME="Jo-Jee"
   EMAIL="jojee.dev@gmail.com"
   REPO="git@github.com:Jo-Jee/$2"
+  SSH_KEY="~/.ssh/id_rsa.jojee"
 else
   echo "Please provide the Profile bb/bun/hs"
   exit 1
@@ -32,3 +36,4 @@ git clone "$REPO"
 cd $2
 git config user.name "$NAME"
 git config user.email "$EMAIL"
+git config core.sshCommand "ssh -i $SSH_KEY"
