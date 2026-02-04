@@ -8,6 +8,7 @@ LINES_TO_ADD=(
   "export PATH=\"$CURRENT_DIR/bin:\$PATH\""
   "export GIT_CONFIG_GLOBAL=\"$CURRENT_DIR/configs/gitconfig\""
   "for f in '$CURRENT_DIR/profiles'/*; do source \$f; done"
+  "export PATH=\"$HOME/.local/bin:\$PATH\""
 )
 
 added_any_line=false
