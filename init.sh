@@ -25,3 +25,18 @@ for LINE in "${LINES_TO_ADD[@]}"; do
     echo "⚠️  이미 존재함: $LINE"
   fi
 done
+
+# AeroSpace 설정 심볼릭 링크 (~/.aerospace.toml -> 이 저장소의 configs/aerospace.toml)
+AEROSPACE_SRC="$CURRENT_DIR/configs/aerospace.toml"
+AEROSPACE_DEST="$HOME/.aerospace.toml"
+
+if [ -L "$AEROSPACE_DEST" ] && [ "$(readlink "$AEROSPACE_DEST")" = "$AEROSPACE_SRC" ]; then
+  echo "⚠️  이미 링크됨: $AEROSPACE_DEST"
+elif [ -e "$AEROSPACE_DEST" ] || [ -L "$AEROSPACE_DEST" ]; then
+  mv "$AEROSPACE_DEST" "$AEROSPACE_DEST.bak"
+  ln -s "$AEROSPACE_SRC" "$AEROSPACE_DEST"
+  echo "✅  기존 파일 백업($AEROSPACE_DEST.bak) 후 링크 생성: $AEROSPACE_DEST"
+else
+  ln -s "$AEROSPACE_SRC" "$AEROSPACE_DEST"
+  echo "✅  링크 생성: $AEROSPACE_DEST"
+fi

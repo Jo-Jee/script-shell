@@ -1,0 +1,155 @@
+# AeroSpace starter config  (~/.aerospace.toml)
+# Docs: https://nikitabobko.github.io/AeroSpace/guide
+# Reload after editing: service mode (alt-shift-;) then esc, or `aerospace reload-config`
+
+config-version = 2
+
+after-startup-command = []
+
+# 로그인 시 자동 실행
+start-at-login = true
+
+# i3 스타일 트리 자동 정규화
+enable-normalization-flatten-containers = true
+enable-normalization-opposite-orientation-for-nested-containers = true
+
+# accordion(겹침) 레이아웃 여백
+accordion-padding = 1
+
+# 새 워크스페이스 기본 레이아웃 / 방향(auto = 가로모니터는 가로분할, 세로모니터는 세로분할)
+default-root-container-layout = 'tiles'
+default-root-container-orientation = 'auto'
+
+# 모니터 전환 시 마우스를 해당 모니터 중앙으로
+on-focused-monitor-changed = ['move-mouse monitor-lazy-center']
+
+automatically-unhide-macos-hidden-apps = false
+
+# 비어 있어도 항상 유지할 워크스페이스 (앱 배치용 1~5)
+persistent-workspaces = ["M", "BB", "BC", "BH", "SL", "SP", "E"]
+
+on-mode-changed = []
+
+[key-mapping]
+    preset = 'qwerty'
+
+# 창 사이(inner) / 화면 가장자리(outer) 여백 (px)
+[gaps]
+    inner.horizontal = 0
+    inner.vertical =   0
+    outer.left =       0
+    outer.bottom =     0
+    outer.top =        0
+    outer.right =      0
+
+# ===== 워크스페이스 → 모니터 배정 =====
+# WS1(iTerm)은 모니터 강제 배정 없음 — 어느 모니터에서나 표시.
+[workspace-to-monitor-force-assignment]
+    M = [2, 'main']     # iTerm: 모니터 2번 우선, 없으면 main 모니터
+    BB = [3, 'main']    # Chrome: 모니터 3번 우선, 없으면 main 모니터
+    BC = [3, 'main']    # Chrome 추가: 모니터 3번 우선, 없으면 main 모니터
+    BH = [3, 'main']    # Chrome 추가: 모니터 3번 우선, 없으면 main 모니터
+    E = 'main'          # 범용: main 모니터
+    SL = 'main'         # Slack: main 모니터
+    SP = 'main'         # Spark: main 모니터
+
+# ===== main 모드: 평소 키바인딩 (모디파이어 = Alt/⌥, tmux C-Space와 충돌 없음) =====
+[mode.main.binding]
+
+    # i3처럼 alt-enter 로 새 터미널(iTerm) 열기
+    alt-enter = 'exec-and-forget open -na iTerm'
+
+    # 레이아웃 전환
+    alt-slash = 'layout tiles horizontal vertical'      # tiles 가로/세로 토글
+    alt-comma = 'layout accordion horizontal vertical'  # accordion 토글
+
+    # 포커스 이동 (vim 방향)
+    alt-h = 'focus left'
+    alt-j = 'focus down'
+    alt-k = 'focus up'
+    alt-l = 'focus right'
+
+    # 창 위치 이동
+    alt-shift-h = 'move left'
+    alt-shift-j = 'move down'
+    alt-shift-k = 'move up'
+    alt-shift-l = 'move right'
+
+    # 리사이즈 (smart = 현재 분할 방향에 맞춰 조절)
+    alt-minus = 'resize smart -50'
+    alt-equal = 'resize smart +50'
+
+    # 워크스페이스 전환
+    alt-1 = 'workspace M'    # iTerm
+    alt-2 = 'workspace SL'   # Slack
+    alt-3 = 'workspace SP'   # Spark
+    alt-4 = 'workspace E'    # 범용
+    alt-q = 'workspace BB'   # Chrome
+    alt-w = 'workspace BC'   # Chrome
+    alt-e = 'workspace BH'   # Chrome
+
+    # 현재 창을 워크스페이스로 이동(이동 후 따라가기)
+    alt-shift-1 = 'move-node-to-workspace M --focus-follows-window'
+    alt-shift-2 = 'move-node-to-workspace SL --focus-follows-window'
+    alt-shift-3 = 'move-node-to-workspace SP --focus-follows-window'
+    alt-shift-4 = 'move-node-to-workspace E --focus-follows-window'
+    alt-shift-q = 'move-node-to-workspace BB --focus-follows-window'
+    alt-shift-w = 'move-node-to-workspace BC --focus-follows-window'
+    alt-shift-e = 'move-node-to-workspace BH --focus-follows-window'
+
+    # 직전 워크스페이스 토글 / 워크스페이스를 다음 모니터로
+    alt-tab = 'workspace-back-and-forth'
+    alt-shift-tab = 'move-workspace-to-monitor --wrap-around next'
+
+    # 플로팅 ↔ 타일 토글, 풀스크린
+    alt-shift-space = 'layout floating tiling'
+    alt-shift-f = 'fullscreen'
+
+    # service 모드 진입
+    alt-shift-semicolon = 'mode service'
+
+# ===== service 모드 (alt-shift-; 로 진입, 한 번 실행 후 main 복귀) =====
+[mode.service.binding]
+    esc = ['reload-config', 'mode main']                       # 설정 리로드
+    r = ['flatten-workspace-tree', 'mode main']                # 트리 평탄화(레이아웃 리셋)
+    f = ['layout floating tiling', 'mode main']                # 플로팅 토글
+    backspace = ['close-all-windows-but-current', 'mode main'] # 현재 창 빼고 닫기
+
+    # 인접 창과 컨테이너 합치기(join)
+    alt-shift-h = ['join-with left', 'mode main']
+    alt-shift-j = ['join-with down', 'mode main']
+    alt-shift-k = ['join-with up', 'mode main']
+    alt-shift-l = ['join-with right', 'mode main']
+
+# ===== 앱 자동 배치 =====
+# M: iTerm   BB: Chrome   BC/BH: Chrome(수동/프로필용)   SL: Slack   SP: Spark   E: 범용
+[[on-window-detected]]
+    if.app-id = 'com.googlecode.iterm2'        # iTerm
+    run = 'move-node-to-workspace M'
+
+# Chrome은 auto-assign 안 함(수동 배치). catch-all(→E)에 안 걸리도록 no-op으로 멈춤.
+[[on-window-detected]]
+    if.app-id = 'com.google.Chrome'            # Chrome
+    run = 'layout tiling'
+
+[[on-window-detected]]
+    if.app-id = 'com.tinyspeck.slackmacgap'    # Slack
+    run = ['move-node-to-workspace SL', 'layout v_accordion']  # 나누지 않고 쌓기
+
+[[on-window-detected]]
+    if.app-id = 'com.readdle.smartemail-Mac'   # Spark
+    run = ['move-node-to-workspace SP', 'layout v_accordion']  # 나누지 않고 쌓기
+
+# 작은 유틸/채팅 창은 타일링하지 않고 플로팅(원래 크기 유지)
+[[on-window-detected]]
+    if.app-id = 'com.apple.systempreferences'  # 시스템 설정
+    run = 'layout floating'
+
+[[on-window-detected]]
+    if.app-id = 'com.kakao.KakaoTalkMac'        # 카카오톡
+    run = 'layout floating'
+
+# catch-all: 위 규칙에 안 걸린(워크스페이스 미지정) 앱은 모두 E로 (세로 아코디언으로 쌓기).
+# 반드시 맨 마지막에 위치 — 첫 매칭에서 멈추므로 위 규칙들이 우선함.
+[[on-window-detected]]
+    run = ['move-node-to-workspace E', 'layout v_accordion']
