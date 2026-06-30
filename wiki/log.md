@@ -7,3 +7,11 @@
 - modified: init.sh (멱등 심링크 생성 블록 추가, 기존 파일은 .bak 백업)
 - created: concepts/aerospace-config-management.md, entities/aerospace.md
 - verified: bash -n / ./init.sh 멱등 / aerospace reload-config 정상
+
+## [2026-06-30] work | tmux 설정 저장소 관리 추가
+- moved: ~/.tmux.conf → configs/tmux.conf (저장소가 source of truth, byte-identical 복사)
+- linked: ~/.tmux.conf → configs/tmux.conf (심볼릭 링크, aerospace와 동일 패턴)
+- modified: init.sh (aerospace 블록 뒤 멱등 심링크 블록 추가, 기존 파일은 .bak 백업)
+- created: concepts/tmux-config-management.md, entities/tmux.md
+- verified: bash -n / 샌드박스 HOME 멱등 3-케이스 / readlink 해석 정상
+- note: 적용은 main 머지 후 저장소 루트에서 ./init.sh 실행 필요
