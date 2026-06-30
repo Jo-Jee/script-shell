@@ -15,3 +15,8 @@
 - created: concepts/tmux-config-management.md, entities/tmux.md
 - verified: bash -n / 샌드박스 HOME 멱등 3-케이스 / readlink 해석 정상
 - note: 적용은 main 머지 후 저장소 루트에서 ./init.sh 실행 필요
+
+## [2026-06-30] ingest | tmux 세션별 환경변수 로더
+- 생성: sources/tmux-session-env-loader.md, concepts/tmux-session-env-loader.md
+- 수정: entities/tmux.md (설정+세션로딩 통합), concepts/aerospace-config-management.md, index.md
+- note: entities/tmux.md 는 tmux 설정 커밋과 add/add 충돌 → 양쪽 내용 병합

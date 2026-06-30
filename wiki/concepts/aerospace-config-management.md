@@ -43,3 +43,4 @@ tags: [aerospace, dotfiles, init, symlink]
 
 ## See Also
 - [[aerospace]] — 윈도우 매니저 본체 및 설정 내용 요약
+- [[tmux-session-env-loader]] — 같은 저장소의 또 다른 설정 관리 메커니즘. AeroSpace가 환경변수를 못 써서 심링크를 쓴 것과 대조적으로, tmux 세션별 환경변수는 `profiles/` source 루프를 통해 env var를 동적 주입한다.

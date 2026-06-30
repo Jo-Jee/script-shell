@@ -3,7 +3,7 @@ title: tmux
 type: entity
 created: 2026-06-30
 updated: 2026-06-30
-sources: []
+sources: [raw/notes/2026-06-30/tmux-session-env-loader.md]
 tags: [tmux, terminal-multiplexer, tpm, dotfiles]
 ---
 
@@ -48,6 +48,15 @@ tags: [tmux, terminal-multiplexer, tpm, dotfiles]
 - `tmux-continuum` — resurrect 자동화 (`restore on`, 15분마다 자동 저장)
 - 마지막 줄: `run '~/.tmux/plugins/tpm/tpm'` (반드시 맨 끝)
 
+## 세션 이름(`#S`)을 환경변수 로딩의 키로 사용
+
+- [[tmux-session-env-loader]] dispatcher가 현재 세션 이름을 읽어
+  `configs/tmux-sessions/<이름>.sh`를 source 한다.
+- 세션 이름 관련 동작 메모:
+  - tmux는 세션 이름의 `..`를 `__`로 치환해 디렉터리 트리 탈출을 막는다.
+  - 그러나 `/`는 보존하므로, 로더 쪽에서 plain basename만 허용하는 가드가 필요하다.
+
 ## See Also
-- [[tmux-config-management]] — 이 설정 파일을 저장소가 관리하는 방식
+- [[tmux-config-management]] — 이 설정 파일(`tmux.conf`)을 저장소가 관리하는 방식
+- [[tmux-session-env-loader]] — tmux 세션별 환경변수 로딩 메커니즘
 - [[aerospace]] — 동일 패턴으로 관리되는 윈도우 매니저 (모디파이어 비충돌)
