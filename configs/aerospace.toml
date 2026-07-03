@@ -49,9 +49,9 @@ on-mode-changed = []
     BB = [3, 'main']    # Chrome: 모니터 3번 우선, 없으면 main 모니터
     BC = [3, 'main']    # Chrome 추가: 모니터 3번 우선, 없으면 main 모니터
     BH = [3, 'main']    # Chrome 추가: 모니터 3번 우선, 없으면 main 모니터
-    E = 'main'          # 범용: main 모니터
-    SL = 'main'         # Slack: main 모니터
-    SP = 'main'         # Spark: main 모니터
+    E = [1, 'main']     # 범용: main 모니터
+    SL = [1, 'main']    # Slack: main 모니터
+    SP = [1, 'main']    # Spark: main 모니터
 
 # ===== main 모드: 평소 키바인딩 (모디파이어 = Alt/⌥, tmux C-Space와 충돌 없음) =====
 [mode.main.binding]
