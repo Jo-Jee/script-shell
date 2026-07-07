@@ -152,7 +152,7 @@ on-mode-changed = []
 
 [[on-window-detected]]
     if.app-id = 'com.jetbrains.datagrip'       # DataGrip
-    run = 'move-node-to-workspace D'
+    run = ['move-node-to-workspace D', 'layout v_accordion']  # 나누지 않고 쌓기
 
 # 작은 유틸/채팅 창은 타일링하지 않고 플로팅(원래 크기 유지)
 [[on-window-detected]]
