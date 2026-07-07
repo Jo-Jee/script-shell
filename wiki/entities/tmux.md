@@ -2,7 +2,7 @@
 title: tmux
 type: entity
 created: 2026-06-30
-updated: 2026-06-30
+updated: 2026-07-07
 sources: [raw/notes/2026-06-30/tmux-session-env-loader.md]
 tags: [tmux, terminal-multiplexer, tpm, dotfiles]
 ---
@@ -23,6 +23,16 @@ tags: [tmux, terminal-multiplexer, tpm, dotfiles]
 ### prefix
 - 기본 `C-b` 해제 → **`C-Space`**로 변경 (`bind C-Space send-prefix`)
 - [[aerospace]]의 모디파이어가 Alt/⌥라 비충돌
+
+### 키바인딩 제약: `M-*` 금지 + root 테이블 키 예산
+- [[aerospace]]가 Option/alt 키를 OS 레벨 글로벌 모디파이어로 점유하므로,
+  tmux에서 `M-*`(Meta/Alt) 계열 바인딩은 **사용 금지** (입력이 도달하지 않거나 충돌).
+  출처: [[aerospace-option-key-tmux-constraint]]
+- root 테이블(프리픽스 없이)에서 이미 점유된 키:
+  - `C-h/j/k/l`, `C-\` — vim-tmux-navigator (특히 `C-l`은 오른쪽 pane 이동이라 다른 용도 불가)
+  - `C-t` — 하단 분할
+  - `C-Space` — 프리픽스
+- 사례: 세션 목록 키 후보였던 `M-s`는 위 제약으로 기각됨 (2026-07-07)
 
 ### vim-tmux-navigator (seamless 이동)
 - `C-h/j/k/l`: nvim 분할 ↔ tmux 페인 간 끊김 없는 포커스 이동 (`is_vim` 프로세스 감지)
@@ -59,4 +69,5 @@ tags: [tmux, terminal-multiplexer, tpm, dotfiles]
 ## See Also
 - [[tmux-config-management]] — 이 설정 파일(`tmux.conf`)을 저장소가 관리하는 방식
 - [[tmux-session-env-loader]] — tmux 세션별 환경변수 로딩 메커니즘
-- [[aerospace]] — 동일 패턴으로 관리되는 윈도우 매니저 (모디파이어 비충돌)
+- [[aerospace]] — 동일 패턴으로 관리되는 윈도우 매니저 (모디파이어 비충돌, Option 키 글로벌 점유)
+- [[aerospace-option-key-tmux-constraint]] — Option 키 점유 → tmux M-* 금지 제약 노트

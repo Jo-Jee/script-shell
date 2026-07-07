@@ -20,3 +20,7 @@
 - 생성: sources/tmux-session-env-loader.md, concepts/tmux-session-env-loader.md
 - 수정: entities/tmux.md (설정+세션로딩 통합), concepts/aerospace-config-management.md, index.md
 - note: entities/tmux.md 는 tmux 설정 커밋과 add/add 충돌 → 양쪽 내용 병합
+
+## [2026-07-07] ingest | AeroSpace Option 키 점유 → tmux M-* 금지
+- 생성: sources/aerospace-option-key-tmux-constraint.md
+- 수정: entities/aerospace.md, entities/tmux.md
