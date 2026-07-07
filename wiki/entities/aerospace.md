@@ -2,7 +2,7 @@
 title: AeroSpace
 type: entity
 created: 2026-06-30
-updated: 2026-06-30
+updated: 2026-07-07
 sources: []
 tags: [aerospace, window-manager, macos, tiling-wm]
 ---
@@ -36,6 +36,13 @@ macOS용 i3 스타일 타일링 윈도우 매니저 (<https://nikitabobko.github
 | `SP` | Spark (메일) | main |
 | `E` | 범용 / catch-all | main |
 
+## 제약: Option/alt 키 글로벌 점유
+
+AeroSpace는 alt(Option) 키를 글로벌 모디파이어로 OS 레벨에서 먼저 가로챈다.
+따라서 Option 키 입력이 터미널/[[tmux]]까지 도달하지 않거나 충돌하므로,
+**tmux 키바인딩에서 `M-*`(Meta/Alt) 계열은 사용 금지**다.
+출처: [[aerospace-option-key-tmux-constraint]] (2026-07-07)
+
 ### 키바인딩 — main 모드 (모디파이어 = Alt/⌥, tmux `C-Space`와 비충돌)
 - `alt-enter`: 새 iTerm 열기
 - `alt-slash` / `alt-comma`: tiles / accordion 레이아웃 토글
@@ -62,3 +69,5 @@ macOS용 i3 스타일 타일링 윈도우 매니저 (<https://nikitabobko.github
 
 ## See Also
 - [[aerospace-config-management]] — 이 설정 파일을 저장소가 관리하는 방식
+- [[tmux]] — Option 키 점유 때문에 M-* 바인딩을 피해야 하는 대상
+- [[aerospace-option-key-tmux-constraint]] — Option 키 점유 → tmux M-* 금지 제약 노트

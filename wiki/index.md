@@ -2,12 +2,13 @@
 
 ## Sources
 
+- [AeroSpace Option 키 점유 → tmux M-* 바인딩 금지](sources/aerospace-option-key-tmux-constraint.md) — AeroSpace가 Option 키를 OS 레벨에서 점유 → tmux M-* 바인딩 금지 제약 + root 테이블 키 예산 노트
 - [tmux 세션별 환경변수 로더](sources/tmux-session-env-loader.md) — tmux 세션 이름별 환경변수 자동 로더 구조/결정/보안 가드 노트
 
 ## Entities
 
-- [AeroSpace](entities/aerospace.md) — macOS i3 스타일 타일링 윈도우 매니저, 설정 내용 요약
-- [tmux](entities/tmux.md) — 터미널 멀티플렉서; 설정(prefix·vim-navigator·TPM) 요약 + 세션 이름(#S)이 환경변수 로딩의 키
+- [AeroSpace](entities/aerospace.md) — macOS i3 스타일 타일링 윈도우 매니저, 설정 내용 요약 + Option/alt 키 글로벌 점유 제약
+- [tmux](entities/tmux.md) — 터미널 멀티플렉서; 설정(prefix·vim-navigator·TPM) 요약 + 세션 이름(#S) env 로딩 + M-* 금지·root 키 예산
 
 ## Concepts
 
