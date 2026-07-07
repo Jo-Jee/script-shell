@@ -26,7 +26,7 @@ on-focused-monitor-changed = ['move-mouse monitor-lazy-center']
 automatically-unhide-macos-hidden-apps = false
 
 # 비어 있어도 항상 유지할 워크스페이스 (앱 배치용 1~5)
-persistent-workspaces = ["M", "BB", "BC", "BH", "SL", "SP", "E"]
+persistent-workspaces = ["M", "BB", "BC", "BH", "SL", "SP", "E", "D"]
 
 on-mode-changed = []
 
@@ -52,6 +52,7 @@ on-mode-changed = []
     E = [1, 'main']     # 범용: main 모니터
     SL = [1, 'main']    # Slack: main 모니터
     SP = [1, 'main']    # Spark: main 모니터
+    D = [1, 'main']     # DataGrip: main 모니터
 
 # ===== main 모드: 평소 키바인딩 (모디파이어 = Alt/⌥, tmux C-Space와 충돌 없음) =====
 [mode.main.binding]
@@ -87,6 +88,7 @@ on-mode-changed = []
     alt-q = 'workspace BB'   # Chrome
     alt-w = 'workspace BC'   # Chrome
     alt-e = 'workspace BH'   # Chrome
+    alt-d = 'workspace D'    # DataGrip
 
     # 현재 창을 워크스페이스로 이동(이동 후 따라가기)
     alt-shift-1 = 'move-node-to-workspace M --focus-follows-window'
@@ -96,6 +98,7 @@ on-mode-changed = []
     alt-shift-q = 'move-node-to-workspace BB --focus-follows-window'
     alt-shift-w = 'move-node-to-workspace BC --focus-follows-window'
     alt-shift-e = 'move-node-to-workspace BH --focus-follows-window'
+    alt-shift-d = 'move-node-to-workspace D --focus-follows-window'
 
     # 직전 워크스페이스 토글 / 워크스페이스를 다음 모니터로
     alt-tab = 'workspace-back-and-forth'
@@ -127,6 +130,13 @@ on-mode-changed = []
     if.app-id = 'com.googlecode.iterm2'        # iTerm
     run = 'move-node-to-workspace M'
 
+# Chrome 시크릿 창은 창 제목 끝에 "(Incognito)"가 붙음 → E로 보냄.
+# 반드시 아래 일반 Chrome 규칙보다 위에 위치(첫 매칭에서 멈춤).
+[[on-window-detected]]
+    if.app-id = 'com.google.Chrome'
+    if.window-title-regex-substring = 'Incognito'
+    run = 'move-node-to-workspace E'
+
 # Chrome은 auto-assign 안 함(수동 배치). catch-all(→E)에 안 걸리도록 no-op으로 멈춤.
 [[on-window-detected]]
     if.app-id = 'com.google.Chrome'            # Chrome
@@ -139,6 +149,10 @@ on-mode-changed = []
 [[on-window-detected]]
     if.app-id = 'com.readdle.smartemail-Mac'   # Spark
     run = ['move-node-to-workspace SP', 'layout v_accordion']  # 나누지 않고 쌓기
+
+[[on-window-detected]]
+    if.app-id = 'com.jetbrains.datagrip'       # DataGrip
+    run = 'move-node-to-workspace D'
 
 # 작은 유틸/채팅 창은 타일링하지 않고 플로팅(원래 크기 유지)
 [[on-window-detected]]
