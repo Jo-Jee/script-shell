@@ -31,8 +31,11 @@ tags: [tmux, terminal-multiplexer, tpm, dotfiles]
 - root 테이블(프리픽스 없이)에서 이미 점유된 키:
   - `C-h/j/k/l`, `C-\` — vim-tmux-navigator (특히 `C-l`은 오른쪽 pane 이동이라 다른 용도 불가)
   - `C-t` — 하단 분할
+  - `C-q` — 세션 목록 (`choose-tree -Zs`)
   - `C-Space` — 프리픽스
-- 사례: 세션 목록 키 후보였던 `M-s`는 위 제약으로 기각됨 (2026-07-07)
+- 사례: 세션 목록 키 후보였던 `M-s`는 위 제약으로 기각됨 (2026-07-07).
+  `C-s`(셸 키 침범)·`C-l`(navigator)·`C-w`(kill-word + vim 윈도우 프리픽스)도 기각,
+  zsh `bindkey`/vim 기본값 전수 조사 후 실사용 충돌이 없는 `C-q`(push-line, 희귀)로 확정.
 
 ### vim-tmux-navigator (seamless 이동)
 - `C-h/j/k/l`: nvim 분할 ↔ tmux 페인 간 끊김 없는 포커스 이동 (`is_vim` 프로세스 감지)
@@ -42,6 +45,7 @@ tags: [tmux, terminal-multiplexer, tpm, dotfiles]
 - `prefix + k`: 화면+스크롤백 클리어 (`C-l` 자리 대체)
 - `prefix + v`: 수직 분할, `prefix + h`: 수평 분할 (둘 다 현재 경로 유지)
 - `C-t` (prefix 없이): 높이 20짜리 하단 수직 분할
+- `C-q` (prefix 없이): 세션 목록 (`choose-tree -Zs`) — `prefix + s`와 상태바 `#S` 우클릭 메뉴도 기본 제공
 - `prefix + r`: 설정 리로드 (`source-file ~/.tmux.conf`)
 
 ### 상태바 — prefix 대기 표시
