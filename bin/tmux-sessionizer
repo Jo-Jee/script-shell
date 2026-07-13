@@ -3,27 +3,38 @@
 # jump to a dedicated tmux session (one session per repo/worktree).
 #
 # Search roots come from a list file (one directory per line), chosen in order:
-#   1. $TMUX_SESSIONIZER_PATHS                     (explicit override)
-#   2. ~/.config/tmux-sessionizer/paths.<session>  (current tmux session name)
-#   3. ~/.config/tmux-sessionizer/paths            (default fallback)
+#   1. $TMUX_SESSIONIZER_PATHS                             (explicit override)
+#   2. configs/tmux-sessions/<session>/project_paths.conf  (current tmux session)
+#   3. configs/tmux-sessions/project_paths.conf            (default fallback)
 
-# Resolve the config file. When inside tmux, prefer a per-session paths file
-# keyed on the session name (#S) — same "session name as key" pattern as
-# profiles/tmux-session-env.sh. Sanitize the name so 'paths.<session>' cannot
-# escape the config dir (reject empty, contains '/', '.' or '..').
+# Resolve this script's real path (it is symlinked into ~/.local/bin), then the
+# repo root two levels up (bin/ -> repo). Config lookup then doesn't depend on
+# init.sh install-time state — same idea as profiles/tmux-session-env.sh.
+_src="${BASH_SOURCE[0]}"
+while [ -L "$_src" ]; do
+    _dir="$(cd -P "$(dirname "$_src")" >/dev/null 2>&1 && pwd)"
+    _src="$(readlink "$_src")"
+    [[ $_src != /* ]] && _src="$_dir/$_src"
+done
+_repo_root="$(cd -P "$(dirname "$_src")/.." >/dev/null 2>&1 && pwd)"
+
+# Pick the config file. When inside tmux, prefer the current session's
+# project_paths.conf (keyed on #S) — same "session name as key" pattern as the
+# env loader. Sanitize the name so it cannot escape the config dir (reject
+# empty, contains '/', '.' or '..').
+_base="$_repo_root/configs/tmux-sessions"
 if [[ -n $TMUX_SESSIONIZER_PATHS ]]; then
     CONFIG="$TMUX_SESSIONIZER_PATHS"
 else
-    _base="$HOME/.config/tmux-sessionizer"
     _sess="$(tmux display-message -p '#S' 2>/dev/null)"
     case "$_sess" in
         ""|*/*|.|..)
-            CONFIG="$_base/paths" ;;
+            CONFIG="$_base/project_paths.conf" ;;
         *)
-            if [[ -f "$_base/paths.$_sess" ]]; then
-                CONFIG="$_base/paths.$_sess"
+            if [[ -f "$_base/$_sess/project_paths.conf" ]]; then
+                CONFIG="$_base/$_sess/project_paths.conf"
             else
-                CONFIG="$_base/paths"
+                CONFIG="$_base/project_paths.conf"
             fi
             ;;
     esac

@@ -2,8 +2,8 @@
 title: tmux 세션별 환경변수 로딩
 type: concept
 created: 2026-06-30
-updated: 2026-06-30
-sources: [raw/notes/2026-06-30/tmux-session-env-loader.md]
+updated: 2026-07-13
+sources: [raw/notes/2026-06-30/tmux-session-env-loader.md, raw/notes/2026-07-13/sessionizer-per-session-paths.md]
 tags: [tmux, zsh, env, dotfiles, profiles, security]
 ---
 
@@ -16,9 +16,9 @@ tags: [tmux, zsh, env, dotfiles, profiles, security]
 | 역할 | 위치 | 설명 |
 |------|------|------|
 | dispatcher | `profiles/tmux-session-env.sh` | `.zshrc`의 `for f in profiles/*` 루프에 자동 포함. tmux 안이면 세션 이름 읽어 해당 scaffold를 source |
-| 세션 scaffold | `configs/tmux-sessions/<세션이름>.sh` | 세션 전용 `export` 모음. `bunjang`, `pp`, `hs` 존재 |
+| 세션 scaffold | `configs/tmux-sessions/<세션이름>/init.sh` | 세션 전용 `export` 모음. `bunjang`, `pp`, `hs` 존재. 같은 폴더에 sessionizer 검색 루트 `project_paths.conf` 도 둔다 |
 
-dispatcher는 tmux 세션 이름(`#S`)을 키로 `configs/tmux-sessions/<이름>.sh`를 찾아 source 한다. 예: `bunjang` 세션 → `CLAUDE_CONFIG_DIR="$HOME/Workspace/bunjang/.claude"` 설정.
+dispatcher는 tmux 세션 이름(`#S`)을 키로 `configs/tmux-sessions/<이름>/init.sh`를 찾아 source 한다. 예: `bunjang` 세션 → `CLAUDE_CONFIG_DIR="$HOME/Workspace/bunjang/.claude"` 설정.
 
 ## 설계 포인트
 
