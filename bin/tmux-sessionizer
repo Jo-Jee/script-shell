@@ -1,0 +1,89 @@
+#!/usr/bin/env bash
+# tmux-sessionizer: fuzzy-pick a repo or worktree from configured roots and
+# jump to a dedicated tmux session (one session per repo/worktree).
+#
+# Search roots come from a list file (one directory per line), chosen in order:
+#   1. $TMUX_SESSIONIZER_PATHS                     (explicit override)
+#   2. ~/.config/tmux-sessionizer/paths.<session>  (current tmux session name)
+#   3. ~/.config/tmux-sessionizer/paths            (default fallback)
+
+# Resolve the config file. When inside tmux, prefer a per-session paths file
+# keyed on the session name (#S) — same "session name as key" pattern as
+# profiles/tmux-session-env.sh. Sanitize the name so 'paths.<session>' cannot
+# escape the config dir (reject empty, contains '/', '.' or '..').
+if [[ -n $TMUX_SESSIONIZER_PATHS ]]; then
+    CONFIG="$TMUX_SESSIONIZER_PATHS"
+else
+    _base="$HOME/.config/tmux-sessionizer"
+    _sess="$(tmux display-message -p '#S' 2>/dev/null)"
+    case "$_sess" in
+        ""|*/*|.|..)
+            CONFIG="$_base/paths" ;;
+        *)
+            if [[ -f "$_base/paths.$_sess" ]]; then
+                CONFIG="$_base/paths.$_sess"
+            else
+                CONFIG="$_base/paths"
+            fi
+            ;;
+    esac
+fi
+
+# Read search roots: skip blanks/comments, trim whitespace, expand leading ~.
+roots=()
+if [[ -f $CONFIG ]]; then
+    while IFS= read -r line; do
+        line="${line%%#*}"                        # drop trailing comment
+        line="${line#"${line%%[![:space:]]*}"}"   # ltrim
+        line="${line%"${line##*[![:space:]]}"}"   # rtrim
+        [[ -z $line ]] && continue
+        line="${line/#\~/$HOME}"                  # expand leading ~
+        roots+=("$line")
+    done < "$CONFIG"
+fi
+
+if [[ ${#roots[@]} -eq 0 ]]; then
+    echo "tmux-sessionizer: no search roots found in $CONFIG" >&2
+    exit 1
+fi
+
+if [[ $# -eq 1 ]]; then
+    selected=$1
+else
+    selected=$(
+        for root in "${roots[@]}"; do
+            find "$root" -mindepth 1 -maxdepth 1 -type d 2>/dev/null
+            find "$root"/*/.claude/worktrees -mindepth 1 -maxdepth 1 -type d 2>/dev/null
+        done | fzf --prompt="worktree> "
+    )
+fi
+
+[[ -z $selected ]] && exit 0
+
+# Path -> session name: strip the matching root prefix, collapse the worktree
+# segment to '__', then make it tmux-safe (no '.' or '/').
+name="$selected"
+for root in "${roots[@]}"; do
+    if [[ $name == "$root"/* ]]; then
+        name="${name#"$root"/}"
+        break
+    fi
+done
+selected_name=$(echo "$name" | sed "s|/\.claude/worktrees/|__|; s|[./]|_|g")
+
+tmux_running=$(pgrep tmux)
+
+# Cold start: no tmux at all -> create a session with this worktree as its
+# first window, then attach.
+if [[ -z $TMUX ]] && [[ -z $tmux_running ]]; then
+    tmux new-session -s sessionizer -n "$selected_name" -c "$selected"
+    exit 0
+fi
+
+# tmux is up: open the worktree as a window in the CURRENT session. If a
+# window with that name already exists, just switch to it (don't duplicate).
+if tmux list-windows -F '#W' 2>/dev/null | grep -Fqx "$selected_name"; then
+    tmux select-window -t "$selected_name"
+else
+    tmux new-window -n "$selected_name" -c "$selected"
+fi

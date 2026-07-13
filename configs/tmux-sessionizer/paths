@@ -1,0 +1,16 @@
+# tmux-sessionizer search roots — one directory per line.
+#
+# Each line's immediate subdirectories are treated as repos, and each
+# repo's .claude/worktrees/* entries are treated as worktrees.
+#
+# Rules:
+#   - blank lines and text after '#' are ignored
+#   - a leading '~' expands to your home directory
+#   - override this file's location with $TMUX_SESSIONIZER_PATHS
+#
+# This is the DEFAULT/fallback list, used when the current tmux session has no
+# matching paths.<session> file (see paths.bunjang, paths.pp, paths.hs).
+
+~/Workspace/bunjang/git
+~/Workspace/pp/git
+~/Workspace/hs/git

@@ -1,0 +1,4 @@
+# tmux-sessionizer search roots for the "bunjang" tmux session.
+# Used automatically when #S == bunjang.
+
+~/Workspace/bunjang/git
