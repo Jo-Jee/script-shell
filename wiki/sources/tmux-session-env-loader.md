@@ -2,7 +2,7 @@
 title: tmux 세션별 환경변수 로더
 type: source
 created: 2026-06-30
-updated: 2026-06-30
+updated: 2026-07-13
 sources: [raw/notes/2026-06-30/tmux-session-env-loader.md]
 tags: [tmux, zsh, env, dotfiles, profiles]
 ---
@@ -13,8 +13,8 @@ tags: [tmux, zsh, env, dotfiles, profiles]
 
 ## 요약
 
-- **`profiles/tmux-session-env.sh`** — dispatcher. `.zshrc`의 `for f in "$REPO/profiles"/*; do source $f; done` 루프에 자동 포함된다. tmux 안일 때 현재 세션 이름을 읽어 `configs/tmux-sessions/<세션이름>.sh`를 source 한다.
-- **`configs/tmux-sessions/{bunjang,pp,hs}.sh`** — 세션별 scaffold. `bunjang.sh`는 `CLAUDE_CONFIG_DIR="$HOME/Workspace/bunjang/.claude"`를 설정(없으면 lazy `mkdir -p`). `pp`, `hs`는 아직 빈 scaffold.
+- **`profiles/tmux-session-env.sh`** — dispatcher. `.zshrc`의 `for f in "$REPO/profiles"/*; do source $f; done` 루프에 자동 포함된다. tmux 안일 때 현재 세션 이름을 읽어 `configs/tmux-sessions/<세션이름>/init.sh`를 source 한다. (※ 파일명은 이후 `<세션이름>.sh` → `<세션이름>/init.sh` 로 정리됨)
+- **`configs/tmux-sessions/{bunjang,pp,hs}/init.sh`** — 세션별 scaffold. `bunjang/init.sh`는 `CLAUDE_CONFIG_DIR="$HOME/Workspace/bunjang/.claude"`를 설정(없으면 lazy `mkdir -p`). `pp`, `hs`는 아직 빈 scaffold. 같은 세션 폴더의 `project_paths.conf`는 sessionizer 검색 루트.
 - 사용법: 세션 이름 `bunjang`/`pp`/`hs`로 tmux를 열고 해당 scaffold 파일에 `export`를 추가하면, 그 세션의 **새 pane**부터 자동 반영된다.
 
 ## 핵심 결정 (diff에 안 드러나는 것들)

@@ -73,19 +73,12 @@ else
   echo "✅  링크 생성: $TSZ_DEST"
 fi
 
-# tmux-sessionizer paths 디렉터리 심볼릭 링크 (~/.config/tmux-sessionizer -> configs/tmux-sessionizer)
-# 세션별 paths.<세션> 파일들이 이 디렉터리에 함께 담긴다.
-TSZ_CFG_SRC="$CURRENT_DIR/configs/tmux-sessionizer"
-TSZ_CFG_DEST="$HOME/.config/tmux-sessionizer"
-mkdir -p "$(dirname "$TSZ_CFG_DEST")"
-
-if [ -L "$TSZ_CFG_DEST" ] && [ "$(readlink "$TSZ_CFG_DEST")" = "$TSZ_CFG_SRC" ]; then
-  echo "⚠️  이미 링크됨: $TSZ_CFG_DEST"
-elif [ -e "$TSZ_CFG_DEST" ] || [ -L "$TSZ_CFG_DEST" ]; then
-  mv "$TSZ_CFG_DEST" "$TSZ_CFG_DEST.bak"
-  ln -s "$TSZ_CFG_SRC" "$TSZ_CFG_DEST"
-  echo "✅  기존 디렉터리 백업($TSZ_CFG_DEST.bak) 후 링크 생성: $TSZ_CFG_DEST"
-else
-  ln -s "$TSZ_CFG_SRC" "$TSZ_CFG_DEST"
-  echo "✅  링크 생성: $TSZ_CFG_DEST"
+# sessionizer paths 는 더 이상 ~/.config/tmux-sessionizer 로 링크하지 않는다.
+# 이제 tmux-sessionizer 가 자기 심볼릭 링크 경로에서 repo 루트를 찾아
+# configs/tmux-sessions/<세션>/project_paths.conf 를 직접 읽는다.
+# 과거 설치로 남은 링크가 있으면 정리한다 (실제 디렉터리면 건드리지 않음).
+TSZ_CFG_OLD="$HOME/.config/tmux-sessionizer"
+if [ -L "$TSZ_CFG_OLD" ]; then
+  rm "$TSZ_CFG_OLD"
+  echo "🧹  더 이상 쓰지 않는 링크 제거: $TSZ_CFG_OLD"
 fi
