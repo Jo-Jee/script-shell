@@ -51,7 +51,7 @@ on-mode-changed = []
     BH = [3, 'main']    # Chrome 추가: 모니터 3번 우선, 없으면 main 모니터
     E = [1, 'main']     # 범용: main 모니터
     SL = [1, 'main']    # Slack: main 모니터
-    SP = [1, 'main']    # Spark: main 모니터
+    SP = [1, 'main']    # Spark Desktop: main 모니터
     D = [1, 'main']     # DataGrip: main 모니터
 
 # ===== main 모드: 평소 키바인딩 (모디파이어 = Alt/⌥, tmux C-Space와 충돌 없음) =====
@@ -83,7 +83,7 @@ on-mode-changed = []
     # 워크스페이스 전환
     alt-1 = 'workspace M'    # iTerm
     alt-2 = 'workspace SL'   # Slack
-    alt-3 = 'workspace SP'   # Spark
+    alt-3 = 'workspace SP'   # Spark Desktop
     alt-4 = 'workspace E'    # 범용
     alt-q = 'workspace BB'   # Chrome
     alt-w = 'workspace BC'   # Chrome
@@ -125,7 +125,7 @@ on-mode-changed = []
     alt-shift-l = ['join-with right', 'mode main']
 
 # ===== 앱 자동 배치 =====
-# M: iTerm   BB: Chrome   BC/BH: Chrome(수동/프로필용)   SL: Slack   SP: Spark   E: 범용
+# M: iTerm   BB: Chrome   BC/BH: Chrome(수동/프로필용)   SL: Slack   SP: Spark Desktop   E: 범용
 [[on-window-detected]]
     if.app-id = 'com.googlecode.iterm2'        # iTerm
     run = 'move-node-to-workspace M'
@@ -147,7 +147,7 @@ on-mode-changed = []
     run = ['move-node-to-workspace SL', 'layout v_accordion']  # 나누지 않고 쌓기
 
 [[on-window-detected]]
-    if.app-id = 'com.readdle.smartemail-Mac'   # Spark
+    if.app-id = 'com.readdle.SparkDesktop'     # Spark Desktop
     run = ['move-node-to-workspace SP', 'layout v_accordion']  # 나누지 않고 쌓기
 
 [[on-window-detected]]
