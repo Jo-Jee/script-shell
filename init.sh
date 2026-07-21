@@ -3,7 +3,12 @@
 ZSHRC="$HOME/.zshrc"
 CURRENT_DIR="$(pwd)"
 
-# 여기에 원하는 문자열을 배열로 추가하세요
+# .zshrc 에 삽입할 블록을 마커로 감싼다.
+# 이 마커 덕분에 script-shell 위치를 옮긴 뒤 다시 실행해도
+# 옛 경로가 박힌 블록을 통째로 교체할 수 있다(중복/깨진 줄 방지).
+BLOCK_BEGIN="# >>> script-shell init >>>"
+BLOCK_END="# <<< script-shell init <<<"
+
 LINES_TO_ADD=(
   "export PATH=\"$CURRENT_DIR/bin:\$PATH\""
   "export GIT_CONFIG_GLOBAL=\"$CURRENT_DIR/configs/gitconfig\""
@@ -11,20 +16,33 @@ LINES_TO_ADD=(
   "export PATH=\"$HOME/.local/bin:\$PATH\""
 )
 
-added_any_line=false
+touch "$ZSHRC"
 
-for LINE in "${LINES_TO_ADD[@]}"; do
-  if ! grep -Fqx "$LINE" "$ZSHRC"; then
-    if [ "$added_any_line" = false ]; then
-      echo "" >> "$ZSHRC"  # 빈 줄 한 줄 추가
-      added_any_line=true
-    fi
-    echo "$LINE" >> "$ZSHRC"
-    echo "✅  추가됨: $LINE"
-  else
-    echo "⚠️  이미 존재함: $LINE"
-  fi
-done
+# 기존 마커 블록이 있으면 제거한다(마커 라인 포함).
+if grep -Fqx "$BLOCK_BEGIN" "$ZSHRC"; then
+  TMP_ZSHRC="$(mktemp)"
+  awk -v b="$BLOCK_BEGIN" -v e="$BLOCK_END" '
+    $0 == b { skip = 1; next }
+    $0 == e { skip = 0; next }
+    !skip   { print }
+  ' "$ZSHRC" > "$TMP_ZSHRC"
+  # 블록 제거로 생긴 끝쪽 빈 줄을 정리한다.
+  awk 'NF { last = NR } { lines[NR] = $0 } END { for (i = 1; i <= last; i++) print lines[i] }' "$TMP_ZSHRC" > "$ZSHRC"
+  rm -f "$TMP_ZSHRC"
+  echo "🔄  기존 블록을 갱신합니다: $CURRENT_DIR"
+else
+  echo "✅  새 블록을 추가합니다: $CURRENT_DIR"
+fi
+
+# 마커 블록을 새로 기록한다.
+{
+  echo ""
+  echo "$BLOCK_BEGIN"
+  for LINE in "${LINES_TO_ADD[@]}"; do
+    echo "$LINE"
+  done
+  echo "$BLOCK_END"
+} >> "$ZSHRC"
 
 # AeroSpace 설정 심볼릭 링크 (~/.aerospace.toml -> 이 저장소의 configs/aerospace.toml)
 AEROSPACE_SRC="$CURRENT_DIR/configs/aerospace.toml"
